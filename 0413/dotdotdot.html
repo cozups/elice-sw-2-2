@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <style>
+      .dot {
+        padding: 0 5px;
+        background-color: lightgray;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    Javascript is
+    <span
+      class="dot"
+      onclick="
+        document.querySelector('.hidden').style.display = 'inline';
+        this.style.display = 'none';
+      "
+      >...</span
+    >
+    <span class="hidden">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste repellat
+      aliquid, soluta laborum molestiae quisquam fugiat nobis dolore autem
+      perspiciatis beatae debitis fugit? Voluptate hic dolorum reiciendis? Nam,
+      consectetur ratione!
+    </span>
+
+    <hr />
+
+    Javascript is
+    <span
+      class="dot"
+      onclick="
+        document.querySelector('#content').innerHTML = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste repellat aliquid, soluta laborum molestiae quisquam fugiat nobis dolore autem perspiciatis beatae debitis fugit? Voluptate hic dolorum reiciendis? Nam, consectetur ratione!';
+        this.style.display = 'none';
+      "
+      >...</span
+    >
+    <span id="content"> </span>
+  </body>
+</html>
