@@ -40,5 +40,15 @@
       }
       console.log(4);
     </script>
+
+    <h2>Array + Loop</h2>
+    <ul class="list"></ul>
+    <script>
+      let ul = document.querySelector(".list");
+
+      for (let i = 0; i < contents.length; i++) {
+        ul.innerHTML += `<li>${contents[i]}</li>`;
+      }
+    </script>
   </body>
 </html>
