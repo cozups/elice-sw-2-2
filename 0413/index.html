@@ -49,28 +49,37 @@
   </head>
 
   <body>
+    <script>
+      function night() {
+        document.querySelector("body").style.backgroundColor = "black";
+        document.querySelector("body").style.color = "white";
+
+        let as = document.querySelectorAll("a");
+        for (let i = 0; i < as.length; i++) {
+          as[i].style.color = "white";
+        }
+      }
+      function day() {
+        document.querySelector("body").style.backgroundColor = "white";
+        document.querySelector("body").style.color = "black";
+
+        let as = document.querySelectorAll("a");
+        for (let i = 0; i < as.length; i++) {
+          as[i].style.color = "black";
+        }
+      }
+    </script>
     <input
       type="button"
       value="night"
       onclick="
-        let as = document.querySelectorAll('a');
-        if(this.value === 'night'){
-          document.querySelector('body').style.backgroundColor='black';
-          document.querySelector('body').style.color='white';
-          this.value='day';
-
-          for(let i=0; i<as.length; i++) {
-            as[i].style.color='white';
-          }
-        } else {
-          document.querySelector('body').style.backgroundColor='white';
-          document.querySelector('body').style.color='black';
-          this.value='night';
-
-          for(let i=0; i<as.length; i++) {
-            as[i].style.color='black';
-          }
-        }
+    if(this.value === 'night'){
+      night();
+      this.value = 'day';
+    } else {
+      day(); 
+      this.value = 'night';
+    }
       "
     />
 
