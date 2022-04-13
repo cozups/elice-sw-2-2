@@ -2,12 +2,12 @@
   <body>
     <h1>Function</h1>
     <script>
-      function 부가세계산() {
-        let 가격 = 100000;
-        let 부가세율 = 0.1;
+      function 부가세계산(가격, 부가세율 = 0.1) {
         console.log(가격 * 부가세율);
       }
-      부가세계산();
+      부가세계산(1000, 0.1);
+      부가세계산(1000, 0.2);
+      부가세계산(1000);
     </script>
   </body>
 </html>
