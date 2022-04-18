@@ -18,20 +18,35 @@
     <nav>
       <ol></ol>
     </nav>
-
-    <h2>Welcome</h2>
-    Hello, WEB
+    <article>
+      <h2>Welcome</h2>
+      Hello, WEB
+    </article>
 
     <script>
-      function nav() {
+      /*function nav() {}
+      let nav = function () {};*/
+      let nav = () => {
         let navTag = "";
         for (let i = 0; i < topics.length; i++) {
           navTag =
             navTag +
-            `<li><a href="${topics[i].id}.html">${topics[i].title}</a></li>`;
+            `<li>
+              <a href="${topics[i].id}.html" id="${topics[i].id}" onclick="
+                event.preventDefault();
+                for(let i=0; i<topics.length; i++) {
+                  if(topics[i].id === parseInt(event.target.id)) {
+                    document.querySelector('article').innerHTML = '<h2>${topics[i].title}</h2>${topics[i].body}';
+                    break;
+                  }
+                }
+              ">
+                ${topics[i].title}
+              </a>
+            </li>`;
         }
         document.querySelector("nav").innerHTML = navTag;
-      }
+      };
       nav();
     </script>
   </body>
