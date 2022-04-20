@@ -39,6 +39,7 @@
         { id: 2, title: "css", body: "css is ..." },
         { id: 3, title: "js", body: "js is ..." },
       ];
+      let nextId = 4;
       let selectedId = null;
       function navHandler(e) {
         // 1. 링크가 작동하지 않아야 한다.
@@ -79,7 +80,30 @@
 
         control();
       }
-      function create() {}
+      function createHandler(e) {
+        e.preventDefault();
+
+        const t = e.target.title.value;
+        const b = e.target.body.value;
+        const newTopic = { id: nextId, title: t, body: b };
+        topics.push(newTopic);
+        nav();
+        selectedId = nextId;
+        nextId++;
+        read();
+      }
+      function create() {
+        const content = `
+          <form onsubmit="createHandler(event);">
+            <p><input type="text" name="title" placeholder="제목"></p>
+            <p><textarea name="body" placeholder="본문"></textarea></p>
+            <p><input type="submit" value="create"></p>
+          </form>
+        `;
+        // textarea는 열었으면 닫아야 함
+        // onsubmit은 폼 태그에만 있음.
+        document.querySelector("article").innerHTML = content;
+      }
       function update() {}
       function del() {}
       function control() {
@@ -91,7 +115,7 @@
           `;
         }
         document.querySelector("#control").innerHTML = `
-          <li><a href="/create">Create</a></li>
+          <li><a href="/create" onclick="event.preventDefault(); create();">Create</a></li>
           ${contextUI} 
         `;
       }
