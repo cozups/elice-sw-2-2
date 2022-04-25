@@ -141,13 +141,23 @@
             control();
           });
       }
-      function del() {}
+      function del() {
+        fetch("http://localhost:3000/topics/" + selectedId, {
+          method: "DELETE",
+        })
+          .then(response => response.json())
+          .then(topic => {
+            nav();
+            selectedId = null;
+            welcome();
+          });
+      }
       function control() {
         let contextUI = "";
         if (selectedId !== null) {
           contextUI = `
                         <li><a href="/update" onclick="event.preventDefault();update();">Update</a></li>
-                        <li><a href="/delete">Delete</a></li> 
+                        <li><a href="/delete" onclick="event.preventDefault();del();">Delete</a></li> 
                     `;
         }
         document.querySelector("#control").innerHTML = `
