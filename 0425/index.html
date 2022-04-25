@@ -77,8 +77,8 @@
           .then(topic => {
             const content = `<h2>${topic.title}</h2>${topic.body}`;
             document.querySelector("article").innerHTML = content;
+            control();
           });
-        control();
       }
       function createHandler(e) {
         e.preventDefault();
@@ -108,13 +108,45 @@
                 `;
         document.querySelector("article").innerHTML = content;
       }
-      function update() {}
+      function updateHandler(e) {
+        e.preventDefault();
+        const t = e.target.title.value;
+        const b = e.target.body.value;
+        fetch("http://localhost:3000/topics/" + selectedId, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title: t, body: b }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            nav();
+            selectedId = data.id;
+            read();
+          });
+      }
+      function update() {
+        fetch("http://localhost:3000/topics/" + selectedId)
+          .then(response => response.json())
+          .then(topic => {
+            const content = `
+                    <form onsubmit="updateHandler(event);">
+                        <p><input type="text" name="title" placeholder="제목" value="${topic.title}"></p>
+                        <p><textarea name="body" placeholder="본문">${topic.body}</textarea></p>
+                        <p><input type="submit" value="update"></p>
+                    </form>
+                `;
+            document.querySelector("article").innerHTML = content;
+            control();
+          });
+      }
       function del() {}
       function control() {
         let contextUI = "";
         if (selectedId !== null) {
           contextUI = `
-                        <li><a href="/update">Update</a></li>
+                        <li><a href="/update" onclick="event.preventDefault();update();">Update</a></li>
                         <li><a href="/delete">Delete</a></li> 
                     `;
         }
