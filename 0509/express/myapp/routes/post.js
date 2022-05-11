@@ -6,6 +6,10 @@ router.get("/", (req, res) => {
   res.render("post");
 });
 
+router.get("/del", (req, res) => {
+  res.render("delete");
+});
+
 router.get("/bookinfo/:id", (req, res) => {
   const authorname = req.params.id;
 
@@ -19,6 +23,17 @@ router.get("/bookinfo/:id", (req, res) => {
   BookSchema.find({ author: authorname })
     .then(result => {
       res.json(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.delete("/del/:id", (req, res) => {
+  const bookname = req.params.id;
+  BookSchema.findOneAndDelete({ bookname: bookname })
+    .then(result => {
+      res.json({ redirect: "/expost" });
     })
     .catch(err => {
       console.log(err);
