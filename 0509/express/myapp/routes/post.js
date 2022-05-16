@@ -73,6 +73,35 @@ router.delete("/del/:id", (req, res) => {
 
 router.post("/addbook", postController.addBook);
 
+// bookinfo 정보를 다 가져오는 코드
+router.get("/getlist", async (req, res) => {
+  const result = await BookSchema.find({}).exec();
+  return res.status(200).json(result);
+});
+
+router.get("/users", (req, res) => {
+  res.render("user");
+});
+
+router.post("/users", async (req, res, next) => {
+  try {
+    const userid = req.body.userid;
+    const job = req.body.job;
+    const user = new userSchema({
+      userid: userid,
+      job: job,
+    });
+    const result = await user.save();
+    res.status(200).json({
+      result,
+      message: "user saved",
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 // router.post("/", (req, res) => {
 //   res.redirect("/expost");
 // });
