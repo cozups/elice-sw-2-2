@@ -1,6 +1,7 @@
 const express = require("express");
 const BookSchema = require("../models/book");
 const router = express.Router();
+const postController = require("../controller/post");
 
 router.get("/", (req, res) => {
   res.render("post");
@@ -10,24 +11,25 @@ router.get("/del", (req, res) => {
   res.render("delete");
 });
 
-router.get("/bookinfo/:id", (req, res) => {
-  const authorname = req.params.id;
+// router.get("/bookinfo/:id", (req, res) => {
+//   const authorname = req.params.id;
 
-  // BookSchema.find({ author: authorname }, (err, result) => {
-  //   if (result) {
-  //     return res.json(result);
-  //   } else {
-  //     return res.send("등록된 작가가 없습니다");
-  //   }
-  // });
-  BookSchema.find({ author: authorname })
-    .then(result => {
-      res.json(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
+//   // BookSchema.find({ author: authorname }, (err, result) => {
+//   //   if (result) {
+//   //     return res.json(result);
+//   //   } else {
+//   //     return res.send("등록된 작가가 없습니다");
+//   //   }
+//   // });
+//   BookSchema.find({ author: authorname })
+//     .then(result => {
+//       res.json(result);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
+router.get("/bookinfo/:id", postController.getBookInfo);
 
 router.delete("/del/:id", (req, res) => {
   const bookname = req.params.id;
@@ -52,22 +54,24 @@ router.delete("/del/:id", (req, res) => {
 // });
 
 //  '/' ==> expost/addbook
-router.post("/addbook", (req, res) => {
-  const bookname = req.body.bookname;
-  const author = req.body.author;
-  const price = req.body.price;
-  const publish = req.body.publish;
+// router.post("/addbook", (req, res) => {
+//   const bookname = req.body.bookname;
+//   const author = req.body.author;
+//   const price = req.body.price;
+//   const publish = req.body.publish;
 
-  let bookData = new BookSchema({
-    bookname: bookname,
-    author: author,
-    price: price,
-    publish: publish,
-  });
+//   let bookData = new BookSchema({
+//     bookname: bookname,
+//     author: author,
+//     price: price,
+//     publish: publish,
+//   });
 
-  bookData.save();
-  res.redirect("/expost");
-});
+//   bookData.save();
+//   res.redirect("/expost");
+// });
+
+router.post("/addbook", postController.addBook);
 
 // router.post("/", (req, res) => {
 //   res.redirect("/expost");
