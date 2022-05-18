@@ -2,11 +2,44 @@ var express = require("express");
 const userSchema = require("../models/newuser");
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
+const session = require("express-session");
+const parseurl = require("parseurl");
 var router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.render("blog/auth");
+});
+
+router.get("/cookie", (req, res) => {
+  res.cookie("drink", "water");
+  res.send("set cookies");
+});
+
+router.use(
+  session({
+    secret: "12345",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+router.use(function (req, res, next) {
+  if (!req.session.views) {
+    req.session.views = {};
+  }
+
+  // get the url pathname
+  var pathname = parseurl(req).pathname;
+
+  // count the views
+  req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
+
+  next();
+});
+
+router.get("/foo", function (req, res, next) {
+  res.send("you viewed this page " + req.session.views["/foo"] + " times");
 });
 
 router.post(
