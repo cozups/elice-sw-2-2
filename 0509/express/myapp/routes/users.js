@@ -1,24 +1,24 @@
-var express = require("express");
-const userSchema = require("../models/newuser");
-const bcrypt = require("bcrypt");
-const { body, validationResult } = require("express-validator");
-const session = require("express-session");
-const parseurl = require("parseurl");
+var express = require('express');
+const userSchema = require('../models/newuser');
+const bcrypt = require('bcrypt');
+const { body, validationResult } = require('express-validator');
+const session = require('express-session');
+const parseurl = require('parseurl');
 var router = express.Router();
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.render("blog/auth");
+router.get('/', function (req, res, next) {
+  res.render('blog/auth');
 });
 
-router.get("/cookie", (req, res) => {
-  res.cookie("drink", "water");
-  res.send("set cookies");
+router.get('/cookie', (req, res) => {
+  res.cookie('drink', 'water');
+  res.send('set cookies');
 });
 
 router.use(
   session({
-    secret: "12345",
+    secret: '12345',
     resave: false,
     saveUninitialized: true,
   })
@@ -38,14 +38,14 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/foo", function (req, res, next) {
-  res.send("you viewed this page " + req.session.views["/foo"] + " times");
+router.get('/foo', function (req, res, next) {
+  res.send('you viewed this page ' + req.session.views['/foo'] + ' times');
 });
 
 router.post(
-  "/signup",
-  body("email").isEmail().withMessage("아이디는 email 형태를 따르셔야 합니다."),
-  body("password").isLength({ min: 5 }).withMessage("비밀번호는 최소 5글자 이상입니다."),
+  '/signup',
+  body('email').isEmail().withMessage('아이디는 email 형태를 따르셔야 합니다.'),
+  body('password').isLength({ min: 5 }).withMessage('비밀번호는 최소 5글자 이상입니다.'),
   async (req, res) => {
     const { email, password } = req.body;
 
@@ -71,12 +71,12 @@ router.post(
           res.status(200).json(result);
         });
     } else {
-      res.status(401).json({ msg: "이미 가입된 계정입니다." });
+      res.status(401).json({ msg: '이미 가입된 계정입니다.' });
     }
   }
 );
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   // 가입을 했던 유저인지 아닌지
@@ -84,20 +84,20 @@ router.post("/login", async (req, res) => {
 
   if (!userdata) {
     // 유저데이터가 없다면
-    return res.status(401).json({ msg: "가입되지 않은 계정입니다." });
+    return res.status(401).json({ msg: '가입되지 않은 계정입니다.' });
   } else {
     // 유저데이터가 존재 -> 비밀번호 매칭
     const pwMatch = bcrypt.compareSync(password, userdata.password);
     if (pwMatch) {
-      res.status(200).json({ msg: "OK" });
+      res.status(200).json({ msg: 'OK' });
     } else {
-      res.status(401).json({ msg: "비밀번호가 일치하지 않습니다." });
+      res.status(401).json({ msg: '비밀번호가 일치하지 않습니다.' });
     }
   }
 });
 
-router.get("/login", (req, res) => {
-  res.render("blog/login");
+router.get('/login', (req, res) => {
+  res.render('blog/login');
 });
 
 module.exports = router;
