@@ -3,3 +3,4 @@
 *package-lock.json
 *dbconfig.json
 *memo.txt
+*.env
